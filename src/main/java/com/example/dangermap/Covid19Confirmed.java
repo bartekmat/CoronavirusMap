@@ -38,6 +38,7 @@ public class Covid19Confirmed {
             double lon = Double.parseDouble(strings.get("Long"));
             String text = strings.get("3/15/20");
             String country = strings.get("Country/Region");
+            if (Integer.parseInt(text)==0){continue;}
             dataRepo.addPoint(new Point(lat,lon,text,country));
         }
     }
