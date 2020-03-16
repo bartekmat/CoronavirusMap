@@ -6,17 +6,10 @@ import org.apache.commons.csv.CSVRecord;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class Covid19Confirmed {
@@ -30,13 +23,7 @@ public class Covid19Confirmed {
     }
 
     @EventListener(ApplicationReadyEvent.class)
-    public void get() throws IOException, InterruptedException {
-//        HttpClient httpClient = HttpClient.newHttpClient();
-//        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(LINK)).build();
-//
-//        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-//
-//        System.out.println(response.body());
+    public void get() throws IOException {
 
 
         RestTemplate restTemplate = new RestTemplate();
