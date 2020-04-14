@@ -10,11 +10,12 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.time.LocalDate;
 
 @Service
 public class Covid19Confirmed {
 
-    public static final String LINK ="https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv";
+    public static final String LINK ="https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv";
 
     private DataRepo dataRepo;
 
@@ -24,7 +25,6 @@ public class Covid19Confirmed {
 
     @EventListener(ApplicationReadyEvent.class)
     public void get() throws IOException {
-
 
         RestTemplate restTemplate = new RestTemplate();
         String forObject = restTemplate.getForObject(LINK, String.class);
@@ -36,7 +36,11 @@ public class Covid19Confirmed {
         for (CSVRecord strings : parser) {
             double lat = Double.parseDouble(strings.get("Lat"));
             double lon = Double.parseDouble(strings.get("Long"));
-            String text = strings.get("3/15/20");
+            String month = String.valueOf(LocalDate.now().getMonthValue());
+            String day = String.valueOf(LocalDate.now().getDayOfMonth()-1);
+            String year = String.valueOf(LocalDate.now().getYear()-2000);
+            String text = strings.get(month+"/"+day+"/"+year);
+            System.out.println(text);
             String country = strings.get("Country/Region");
             if (Integer.parseInt(text)==0){continue;}
             dataRepo.addPoint(new Point(lat,lon,text,country));
